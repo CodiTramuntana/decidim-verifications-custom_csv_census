@@ -1,0 +1,53 @@
+---
+
+AllCops:
+  Exclude:
+    - "development_app/**/*"
+    - "spec/decidim_dummy_app/**/*"
+
+  DisplayCopNames: true
+
+  DisplayStyleGuide: true
+
+  TargetRubyVersion: 2.5.1
+Metrics:
+  Enabled: false
+
+Rails:
+  Enabled: true
+
+Layout/ExtraSpacing:
+  AllowForAlignment: false
+
+Lint/InterpolationCheck:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/TrivialAccessors:
+  ExactNameMatch: true
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always
+
+Style/Lambda:
+  EnforcedStyle: literal
+
+Style/ModuleFunction:
+  EnforcedStyle: extend_self
+
+Style/RaiseArgs:
+  Enabled: false
+
+Style/SafeNavigation:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
