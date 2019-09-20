@@ -88,7 +88,7 @@ Decidim::Verifications::CustomCsvCensus::CustomCsvCensusAuthorizationHandler.cla
   private
 
   def user_must_be_of_legal_age
-    return if errors.any? || census_for_user
+    return unless census_for_user
 
     age_in_years = Date.current.year - census_for_user.birthdate.year
     errors.add(:birthdate, I18n.t("errors.messages.age")) if age_in_years < 18
