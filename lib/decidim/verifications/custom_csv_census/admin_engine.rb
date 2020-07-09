@@ -8,6 +8,8 @@ module Decidim
         isolate_namespace Decidim::Verifications::CustomCsvCensus::Admin
 
         paths["db/migrate"] = nil
+        paths["lib/tasks"] = nil
+
 
         routes do
           resources :custom_csv_census, only: %i[index create] do
