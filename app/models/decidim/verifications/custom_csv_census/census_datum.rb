@@ -16,7 +16,7 @@ module Decidim
           where(organization: organization)
         end
 
-        # Search for a specific document id inside a organization
+        # Search for a specific row inside the organization's census
         def self.search(organization, attributes)
           CensusDatum.inside(organization).find_by(
             attributes.transform_values { |v| encode(v) }
