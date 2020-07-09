@@ -9,7 +9,7 @@ gem "decidim", require: true
 
 group :development, :test do
   gem "bootsnap"
-  gem "byebug", "~> 10.0", platform: :mri
+  gem "byebug", platform: :mri
   gem "faker", "~> 1"
   gem "listen"
 end
