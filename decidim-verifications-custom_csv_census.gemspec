@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   DECIDIM_VERSION = ">= 0.15.0"
 
   s.add_dependency "decidim", DECIDIM_VERSION
+  s.add_dependency "decidim-core", DECIDIM_VERSION
   s.add_dependency "decidim-admin", DECIDIM_VERSION
   s.add_dependency "decidim-verifications", DECIDIM_VERSION
 
