@@ -6,7 +6,7 @@ The gem has been developed by [CodiTramuntana](https://coditramuntana.com).
 
 ## Usage
 
-The module provides a model `Decidim::Verifications::CensusDatum` to store census information. Then, in the auhtorization form `Decidim::Verifications::CustomCsvCensus::CustomCsvCensusAuthorizationHandler` the user input will be used to search for that data model. Information used to compare against the user data is stored in a hashed way.
+The module provides a model `Decidim::Verifications::CensusDatum` to store census information. Then, in the auhtorization form `Decidim::Verifications::CustomCsvCensus::CustomCsvCensusAuthorizationHandler` the user input will be used to search for that data model. Stored data can be persisted in a hashed way.
 
 It also provides a model `Decidim::Verifications::CensusDataReport` used to trace the actions (create and delete) of the admins regarding the census. This information will be shown in the admin logs.
 
@@ -44,6 +44,7 @@ Decidim::Verifications::CustomCsvCensus.configure do |config|
     id_document: {
       type: String,
       search: true,
+      encoded: true,
       format: /\A[A-Z0-9]*\z/
     }
   }
@@ -54,6 +55,7 @@ The configuration option `fields` must be a `Hash`: the key must be the name of 
 
 Additional options are:
 - `format`, a `Regexp` used to validate both the CSV value while importing and the input of the user while authorizing (recommended).
+- `encoded`, whether to apply a hash function to this value before persisting it.
 - `parse`, a `Proc` used to process the CSV value while importing.
 - `parse_first`, a `Boolean` to decide wether to parse the field before validating the format while importing.
   - You could want to do it beforehand to clean the incoming data.
@@ -122,6 +124,43 @@ Create a dummy app in your application (if not present):
 
 ```bash
 bin/rails decidim:generate_external_test_app
+cd spec/decidim_dummy_app/
+bundle exec rake decidim_verifications_custom_csv_census:install:migrations
+RAILS_ENV=test bundle exec rails db:migrate
+```
+
+Configure the initializer in the dummy_app:
+```
+# spec/decidim_dummy_app/config/initializers/decidim_verifications.rb
+Decidim::Verifications::CustomCsvCensus.configure do |config|
+  # `config.col_sep = ","` is the default CSV column separator.
+  config.fields = {
+    id_document: {
+      type: String,
+      search: true,
+      encoded: true,
+      format: /\A[A-Z0-9]*\z/
+    },
+    favourite_color: {
+      type: String,
+      search: false,
+      encoded: false
+    },
+    birth_date: {
+      type: Date,
+      search: true,
+      encoded: false,
+      format: %r{\d{2}\/\d{2}\/\d{4}},
+      parse: proc { |s| s.to_date }
+    }
+  }
+end
+```
+
+then, still in the dummy_app:
+
+```
+RAILS_ENV=test bundle exec rake custom_csv_census:init
 ```
 
 And run tests with `bundle exec rspec`
