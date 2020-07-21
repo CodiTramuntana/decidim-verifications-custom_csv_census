@@ -19,10 +19,14 @@ module Decidim
         end
 
         # Search for a specific row inside the organization's census
-        def self.search(organization, attributes)
-          encode_flags= fields.slice(*attributes.keys).values.map {|options| options[:encoded]}
+        #
+        # Parameters:
+        # organization  - The organization to which restrict the search
+        # search_fields - Hash with entries of the form field => search value.
+        def self.search(organization, search_fields)
+          encode_flags= fields.slice(*search_fields.keys).values.map {|options| options[:encoded]}
           CensusDatum.inside(organization).find_by(
-            attributes.transform_values.with_index { |v, idx| encode_flags[idx] ? encode(v) : v }
+            search_fields.transform_values.with_index { |v, idx| encode_flags[idx] ? encode(v) : v }
           )
         end
 
