@@ -17,7 +17,7 @@ describe "custom_csv_census" do
 
     it "should create a migration and put custom fields in it" do
       expect(File).to receive(:write).with(
-        /_create_decidim_verifications_custom_csv_census_census_data.rb/,
+        /_create_decidim_verifications_custom_csv_census_census_data.decidim_verifications_custom_csv_census.rb/,
         /t.string :id_document/
       )
 

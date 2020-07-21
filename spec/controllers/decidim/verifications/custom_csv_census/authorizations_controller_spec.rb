@@ -11,10 +11,13 @@ module Decidim
         let(:user) { create(:user, :confirmed) }
         let(:organization) { user.organization }
         let(:authorization) { Authorization.last }
+        let(:birth_date) { "01/02/2020".to_date }
         let(:params) do
           {
             authorization_handler: {
               id_document: "00000000Z",
+              favourite_color: 'pink',
+              birth_date: birth_date,
               user: user
             }
           }
@@ -31,6 +34,7 @@ module Decidim
             create(
               :census_datum,
               id_document: CensusDatum.encode("00000000Z"),
+              birth_date: birth_date,
               organization: organization
             )
           end
