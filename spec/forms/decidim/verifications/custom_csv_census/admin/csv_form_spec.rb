@@ -24,7 +24,7 @@ module Decidim
           end
 
           context "when file is not a valid csv" do
-            before { allow(subject.csv_data).to receive(:read).and_raise(CSV::MalformedCSVError) }
+            before { allow(subject.csv_data).to receive(:read).and_raise(CSV::MalformedCSVError.new(nil, nil)) }
 
             it { is_expected.to be_invalid }
           end
