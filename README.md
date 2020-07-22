@@ -61,7 +61,8 @@ Additional options are:
   - You could want to do it beforehand to clean the incoming data.
   - You could want to do it afterwards to further transform clean data.
 
-**Translations**
+### Translations
+
 - You need to provide translations for your configured fields using the following locale key `activemodel.attributes.custom_csv_census_authorization_handler.<field_name>`
 - You need to provide translations for format errors if you have configured the `format` option using the following locale key: `errors.messages.<field_name>_format`
 
