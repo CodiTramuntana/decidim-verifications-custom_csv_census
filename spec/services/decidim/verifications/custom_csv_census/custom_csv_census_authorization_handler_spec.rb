@@ -26,6 +26,22 @@ module Decidim
 
         it { is_expected.to be_valid }
 
+        context "#unique_id" do
+          it "consists of all searchable fields hashed" do
+            id= "891622bea95b978db6afba9e1fdc3c56428e210280e1db78fba302e8a02981db"
+            expect(subject.unique_id).to eq(id)
+          end
+        end
+
+        context "#metadata" do
+          it "consists of all non encoded fields" do
+            expect(subject.metadata).to eq({
+              favourite_color: "pink",
+              birth_date: birth_date.to_s,
+            })
+          end
+        end
+
         context "with missing fields" do
           let(:id_document) { nil }
 
