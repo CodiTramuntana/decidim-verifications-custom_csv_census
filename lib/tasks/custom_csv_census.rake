@@ -20,12 +20,7 @@ namespace :custom_csv_census do
       new_migration_name = "#{timestamp}_#{default_migration_name}"
       file_name = Rails.root.join("db", "migrate", new_migration_name)
       File.write(file_name.to_s, text.gsub("# replace me", replacement)) unless File.exist?(file_name)
-      wait_to_avoid_timestamp_clash_with_report_migration
       puts "Created migration #{file_name.basename}"
-    end
-
-    def wait_to_avoid_timestamp_clash_with_report_migration
-      # sleep(1)
     end
 
     def custom_fields
