@@ -22,6 +22,11 @@ module Decidim
           CensusDatum.encode(search_attributes)
         end
 
+        def metadata
+          metadata_fields= fields.select { |_k, options| !options[:encoded] }
+          attributes.slice(*metadata_fields.keys).transform_values {|v| v.to_s}
+        end
+
         private
 
         def search_attributes

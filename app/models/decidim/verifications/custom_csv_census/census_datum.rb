@@ -5,6 +5,8 @@ module Decidim
     module CustomCsvCensus
       # Provides information about the current status of the census data
       class CensusDatum < ApplicationRecord
+        include CustomFields
+
         # rubocop:disable Rails/InverseOf
         belongs_to :organization,
                    foreign_key: :decidim_organization_id,
@@ -17,9 +19,14 @@ module Decidim
         end
 
         # Search for a specific row inside the organization's census
-        def self.search(organization, attributes)
+        #
+        # Parameters:
+        # organization  - The organization to which restrict the search
+        # search_params - Hash with entries of the form field => search value.
+        def self.search(organization, search_params)
+          encode_flags= fields.slice(*search_params.keys).values.map {|options| options[:encoded]}
           CensusDatum.inside(organization).find_by(
-            attributes.transform_values { |v| encode(v) }
+            search_params.transform_values.with_index { |v, idx| encode_flags[idx] ? encode(v) : v }
           )
         end
 

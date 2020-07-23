@@ -33,8 +33,8 @@ module Decidim
           end
 
           context "whithout valid csv_data" do
-            let(:row2) { "invalid" }
-            let(:row3) { "invalid" }
+            let(:row2) { ["invalid"] }
+            let(:row3) { ["invalid"] }
 
             it "broadcasts invalid" do
               expect { subject }.to broadcast(:invalid)
@@ -46,6 +46,8 @@ module Decidim
               create(
                 :census_datum,
                 id_document: CensusDatum.encode("00000000Z"),
+                favourite_color: "red",
+                birth_date: "01/01/2020",
                 organization: organization
               )
             end

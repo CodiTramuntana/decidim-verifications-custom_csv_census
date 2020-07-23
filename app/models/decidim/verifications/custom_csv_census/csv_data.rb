@@ -51,7 +51,7 @@ module Decidim
         def process_row(row, line_number)
           processed_row = row.map do |key, value|
             value = process_value(key, value)
-            value = CensusDatum.encode(value) if fields[key][:search]
+            value = CensusDatum.encode(value) if fields[key][:encoded]
             value
           end.push(@organization.id, @now)
 

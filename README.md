@@ -61,7 +61,8 @@ Additional options are:
   - You could want to do it beforehand to clean the incoming data.
   - You could want to do it afterwards to further transform clean data.
 
-**Translations**
+### Translations
+
 - You need to provide translations for your configured fields using the following locale key `activemodel.attributes.custom_csv_census_authorization_handler.<field_name>`
 - You need to provide translations for format errors if you have configured the `format` option using the following locale key: `errors.messages.<field_name>_format`
 
@@ -123,45 +124,11 @@ end
 Create a dummy app in your application (if not present):
 
 ```bash
-bin/rails decidim:generate_external_test_app
-cd spec/decidim_dummy_app/
-bundle exec rake decidim_verifications_custom_csv_census:install:migrations
-RAILS_ENV=test bundle exec rails db:migrate
+bin/rails test_app
 ```
 
-Configure the initializer in the dummy_app:
-```
-# spec/decidim_dummy_app/config/initializers/decidim_verifications.rb
-Decidim::Verifications::CustomCsvCensus.configure do |config|
-  # `config.col_sep = ","` is the default CSV column separator.
-  config.fields = {
-    id_document: {
-      type: String,
-      search: true,
-      encoded: true,
-      format: /\A[A-Z0-9]*\z/
-    },
-    favourite_color: {
-      type: String,
-      search: false,
-      encoded: false
-    },
-    birth_date: {
-      type: Date,
-      search: true,
-      encoded: false,
-      format: %r{\d{2}\/\d{2}\/\d{4}},
-      parse: proc { |s| s.to_date }
-    }
-  }
-end
-```
-
-then, still in the dummy_app:
-
-```
-RAILS_ENV=test bundle exec rake custom_csv_census:init
-```
+This will produce the dummy app and copy the `config/custom_csv_census_initializer_example.rb` initializer in the dummy_app.
+It will also produce and execute the custom_csv_census migrations.
 
 And run tests with `bundle exec rspec`
 

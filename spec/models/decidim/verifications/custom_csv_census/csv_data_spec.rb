@@ -22,8 +22,8 @@ module Decidim
           end
 
           context "with invalid data" do
-            let(:row2) { "invalid" }
-            let(:row3) { "invalid" }
+            let(:row2) { ["invalid"] }
+            let(:row3) { ["invalid"] }
 
             it "reads the data" do
               csv_data.read
@@ -33,7 +33,7 @@ module Decidim
           end
 
           context "with invalid headers" do
-            let(:headers) { "invalid" }
+            let(:headers) { ["invalid"] }
 
             it "does not read the data" do
               expect(csv_data).not_to receive(:process_row)
