@@ -12,7 +12,7 @@ module Decidim
           delegate :fields, to: :configuration
 
           def search_fields
-            @search_fields ||= fields.select { |_k, v| v[:search] }
+            @search_fields ||= fields.select { |_k, options| options[:search] }
           end
 
           def search_keys
