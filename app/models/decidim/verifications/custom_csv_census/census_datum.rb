@@ -22,11 +22,11 @@ module Decidim
         #
         # Parameters:
         # organization  - The organization to which restrict the search
-        # search_fields - Hash with entries of the form field => search value.
-        def self.search(organization, search_fields)
-          encode_flags= fields.slice(*search_fields.keys).values.map {|options| options[:encoded]}
+        # search_params - Hash with entries of the form field => search value.
+        def self.search(organization, search_params)
+          encode_flags= fields.slice(*search_params.keys).values.map {|options| options[:encoded]}
           CensusDatum.inside(organization).find_by(
-            search_fields.transform_values.with_index { |v, idx| encode_flags[idx] ? encode(v) : v }
+            search_params.transform_values.with_index { |v, idx| encode_flags[idx] ? encode(v) : v }
           )
         end
 
