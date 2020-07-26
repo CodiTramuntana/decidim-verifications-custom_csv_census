@@ -1,5 +1,6 @@
 = CHANGELOG
 
-== 0.0.5 BETA/MINOR (2018-11-26)
-- Upgrade to Decidim v0.15.0
-- Use more optimist versioning for future Decidim versions.
+== 0.0.2 MINOR (2020-07-26)
+- Implement handler metadata contents
+- Apply optional encoding of datum fields to import process. Take into account which attributes should be encoded when searching the census datum.
+- Update test suite.
