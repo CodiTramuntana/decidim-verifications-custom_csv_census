@@ -1,0 +1,28 @@
+name: "[CI] Lint"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+env:
+  RUBY_VERSION: 2.7.5
+
+jobs:
+  lint-report:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+
+      - name: Lint and Rubocop
+        run: |
+          bundle exec rubocop -P
+          bundle exec erblint app/**/*.erb

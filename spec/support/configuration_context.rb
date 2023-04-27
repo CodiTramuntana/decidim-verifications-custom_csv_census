@@ -14,7 +14,7 @@ shared_context "with configured fields" do
   let(:custom_fields) { defined?(fields) ? fields : default_fields }
 
   before do
-    Decidim::Verifications::CustomCsvCensus.configure do |config|
+    Decidim::CustomCsvCensus.configure do |config|
       config.fields = custom_fields
     end
   end
@@ -25,7 +25,7 @@ end
 shared_context "with table" do
   let(:table_name) { :decidim_verifications_custom_csv_census_census_data }
   let(:table_definition) do
-    custom_fields = Decidim::Verifications::CustomCsvCensus.configuration.fields
+    custom_fields = Decidim::CustomCsvCensus.configuration.fields
     indexes = custom_fields.select { |_k, v| v[:search] }.keys.push(:decidim_organization_id)
     proc do |t|
       t.references :decidim_organization, index: { name: "census_data_org_id_index" }

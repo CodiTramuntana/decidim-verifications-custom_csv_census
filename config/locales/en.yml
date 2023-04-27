@@ -18,37 +18,36 @@ en:
       custom_csv_census_authorization_handler:
         explanation: Verifica't mitjançant el cens de l'organització
         name: Cens personalitzat de l'organització
-    verifications:
-      custom_csv_census:
-        admin:
-          custom_csv_census:
-            create:
-              error: S'ha produït un error en la importació del cens.
-              success: S'han importat amb èxit %{count} elements nous (%{errors} errors)
-            destroy:
-              success: S'han esborrat totes les dades censals
-            index:
-              authorized: Hi ha un total de %{count} usuaris autoritzats amb aquestes
-                dades.
-              confirm: Aquesta acció no es pot desfer. Estàs segur/a que voleu continuar?
-              destroy: Esborrar dades del cens i revocar autoritzacions
-              empty: Encara no hi ha dades censals carregades. Utilitza el següent
-                formulari per importar-ne utilitzant un fitxer CSV.
-              file: Arxiu excel .csv amb les dades del cens
-              info: 'Ha de ser un fitxer generat en excel i exportat en CSV amb les
-                següents columnes:'
-              new: Puja un nou cens
-              records: Hi ha un total de %{count} registres carregats. L'última càrrega
-                va ser el dia %{due_date}
-              submit: Carrega
-              title: Dades del cens carregat
-        admin_log:
-          create: "%{user_name} ha carregat noves dades al %{resource_name}"
-          delete: "%{user_name} ha esborrat les dades  del %{resource_name}"
-          num_deleted: Dades esborrades
-          num_inserts: Noves dades
-          num_invalid: Files invàlides
-          num_revoked: Autoritzacions revocades
+    custom_csv_census:
+      admin:
+        custom_csv_census:
+          create:
+            error: S'ha produït un error en la importació del cens.
+            success: S'han importat amb èxit %{count} elements nous (%{errors} errors)
+          destroy:
+            success: S'han esborrat totes les dades censals
+          index:
+            authorized: Hi ha un total de %{count} usuaris autoritzats amb aquestes
+              dades.
+            confirm: Aquesta acció no es pot desfer. Estàs segur/a que voleu continuar?
+            destroy: Esborrar dades del cens i revocar autoritzacions
+            empty: Encara no hi ha dades censals carregades. Utilitza el següent formulari
+              per importar-ne utilitzant un fitxer CSV.
+            file: Arxiu excel .csv amb les dades del cens
+            info: 'Ha de ser un fitxer generat en excel i exportat en CSV amb les
+              següents columnes:'
+            new: Puja un nou cens
+            records: Hi ha un total de %{count} registres carregats. L'última càrrega
+              va ser el dia %{due_date}
+            submit: Carrega
+            title: Dades del cens carregat
+      admin_log:
+        create: "%{user_name} ha carregat noves dades al %{resource_name}"
+        delete: "%{user_name} ha esborrat les dades  del %{resource_name}"
+        num_deleted: Dades esborrades
+        num_inserts: Noves dades
+        num_invalid: Files invàlides
+        num_revoked: Autoritzacions revocades
   errors:
     messages:
       id_document_format: ha d'estar en majúscules i contenir lletres i/o nombres
