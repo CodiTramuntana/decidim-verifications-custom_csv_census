@@ -12,6 +12,11 @@ en:
           - Els administradors carreguen un CSV i creen un cens amb dades acceptades.
           - Només es poden verificar les participants que hagin omplert la informació
             requerida que figuri en el cens.
+        custom_csv_census_authorization_handler:
+          help:
+            - Els administradors carreguen un CSV i creen un cens amb dades acceptades.
+            - Només es poden verificar les participants que hagin omplert la informació
+              requerida que figuri en el cens.
       custom_csv_census:
         explanation: Verifica't mitjançant el cens de l'organització
         name: Cens personalitzat de l'organització
