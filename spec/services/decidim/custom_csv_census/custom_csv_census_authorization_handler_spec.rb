@@ -12,6 +12,7 @@ module Decidim
       let(:birth_date) { "01/02/2020".to_date }
       let(:user) { create(:user) }
       let(:organization) { user.organization }
+      let(:search_attributes) { { id_document: id_document, birth_date: birth_date } }
 
       let!(:data) do
         create(
@@ -27,8 +28,7 @@ module Decidim
 
       describe "#unique_id" do
         it "consists of all searchable fields hashed" do
-          id = "891622bea95b978db6afba9e1fdc3c56428e210280e1db78fba302e8a02981db"
-          expect(subject.unique_id).to eq(id)
+          expect(subject.unique_id).to eq(CensusDatum.encode(search_attributes))
         end
       end
 
