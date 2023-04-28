@@ -1,14 +1,14 @@
-# Decidim::Verifications::CustomCsvCensus
+# Decidim::CustomCsvCensus
 
 The gem has been developed by [CodiTramuntana](https://coditramuntana.com).
 
-`Decidim::Verifications::CustomCsvCensus` is a [Decidim](https://github.com/decidim/decidim) module to allow uploading a CSV file to perform verifications against data that can be configured at installation level. It is inspired in [Decidim File Authorization Handler](https://github.com/MarsBased/decidim-file_authorization_handler/) gem and based on the [Decidim::Verifications](https://github.com/decidim/decidim/tree/master/decidim-verifications#decidimverifications) module.
+`Decidim::CustomCsvCensus` is a [Decidim](https://github.com/decidim/decidim) module to allow uploading a CSV file to perform verifications against data that can be configured at installation level. It is inspired in [Decidim File Authorization Handler](https://github.com/MarsBased/decidim-file_authorization_handler/) gem and based on the [Decidim::Verifications](https://github.com/decidim/decidim/tree/master/decidim-verifications#decidimverifications) module.
 
 ## Usage
 
-The module provides a model `Decidim::Verifications::CensusDatum` to store census information. Then, in the auhtorization form `Decidim::Verifications::CustomCsvCensus::CustomCsvCensusAuthorizationHandler` the user input will be used to search for that data model. Stored data can be persisted in a hashed way.
+The module provides a model `Decidim::CustomCsvCensus::CensusDatum` to store census information. Then, in the auhtorization form `Decidim::CustomCsvCensus::CustomCsvCensusAuthorizationHandler` the user input will be used to search for that data model. Stored data can be persisted in a hashed way.
 
-It also provides a model `Decidim::Verifications::CensusDataReport` used to trace the actions (create and delete) of the admins regarding the census. This information will be shown in the admin logs.
+It also provides a model `Decidim::CustomCsvCensus::CensusDataReport` used to trace the actions (create and delete) of the admins regarding the census. This information will be shown in the admin logs.
 
 It has an admin controller to upload CSV files with the information and it ignores duplicates when importing new data.
 
@@ -19,7 +19,7 @@ The uploaded file is processed when the file is uploaded. Uploading the file to 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'decidim-verifications-custom_csv_census', git: 'git@github.com:CodiTramuntana/decidim-verifications-custom_csv_census.git'
+gem 'decidim-custom_csv_census', git: 'git@github.com:Platoniq/decidim-verifications-custom_csv_census.git'
 ```
 
 Configure the CSV fields by creating an initializer in `config/initializers/custom_csv_census.rb`.
@@ -37,8 +37,8 @@ bin/rails custom_csv_census:init
 This [example](config/custom_csv_census_initializer_example.rb) shows a standard usecase:
 
 ```ruby
-# config/initializers/decidim_verifications_custom_csv_census.rb
-Decidim::Verifications::CustomCsvCensus.configure do |config|
+# config/initializers/decidim_custom_csv_census.rb
+Decidim::CustomCsvCensus.configure do |config|
   # `config.col_sep = ","` is the default CSV column separator.
   config.fields = {
     id_document: {
@@ -72,13 +72,13 @@ Decidim implements two type of authorization methods:
 - Form authorizations, used when the authorization can be granted with the submission of a single form, called authorization handler.
 - Workflow authorizations, used when the authorization requires admin intervention.
 
-This module is technically a workflow authorization because it implements an admin engine, but it can also be considered a form authorization as the main engine's controller [inherits](app/controllers/decidim/verifications/custom_csv_census/authorizations_controller.rb) from `Decidim::Verifications::AuthorizationsController` since it make it easier to find the authorization form for the base controller in order to treat it as an authorization handler. This is because the base authorization scheme is perfect for the module needs and it is also why the workflow name is _custom_csv_census_authorization_handler_ and not _custom_csv_census_, so the Decidim's Verifications Engine recognizes our authorization form as an authorization handler.
+This module is technically a workflow authorization because it implements an admin engine, but it can also be considered a form authorization as the main engine's controller [inherits](app/controllers/decidim/custom_csv_census/authorizations_controller.rb) from `Decidim::Verifications::AuthorizationsController` since it make it easier to find the authorization form for the base controller in order to treat it as an authorization handler. This is because the base authorization scheme is perfect for the module needs and it is also why the workflow name is _custom_csv_census_authorization_handler_ and not _custom_csv_census_, so the Decidim's Verifications Engine recognizes our authorization form as an authorization handler.
 
 The default behaviour of the authorization form is to search the database for the census data using the user inputted data that corresponds with the configured fields that have the option `search: true`; if the census data is found the user is authorized. However, if that is not enough, you can extend the form to add more validations, like so:
 
 ```ruby
 # config/initializers/decidim_verifications_custom_csv_census.rb
-Decidim::Verifications::CustomCsvCensus::CustomCsvCensusAuthorizationHandler.class_eval do
+Decidim::CustomCsvCensus::CustomCsvCensusAuthorizationHandler.class_eval do
   # Assuming you have configured the following field:
   #   birthdate: {
   #     type: Date,
@@ -99,21 +99,19 @@ Decidim::Verifications::CustomCsvCensus::CustomCsvCensusAuthorizationHandler.cla
 end
 ```
 
-You can also inject data to the `Decidim::Authorization` `metadata` field and override the [authorization workflow](lib/decidim/verifications/custom_csv_census/workflow.rb) to add a [custom action authorizer](https://github.com/decidim/decidim/tree/master/decidim-verifications#custom-action-authorizers) so you can change the authorization logic when setting a verification method in the admin zone for a given component action. Like so:
+You can also inject data to the `Decidim::Authorization` `metadata` field and override the [authorization workflow](lib/decidim/custom_csv_census/workflow.rb) to add a [custom action authorizer](https://github.com/decidim/decidim/tree/master/decidim-verifications#custom-action-authorizers) so you can change the authorization logic when setting a verification method in the admin zone for a given component action. Like so:
 
 ```ruby
 # config/initializers/decidim_verifications_custom_csv_census.rb
 Decidim::Verifications.register_workflow(:custom_csv_census_authorization_handler) do |workflow|
-  workflow.action_authorizer = "Decidim::Verifications::CustomCsvCensus::ActionAuthorizer"
+  workflow.action_authorizer = "Decidim::CustomCsvCensus::ActionAuthorizer"
 end
 
-# app/services/decidim/verifications/custom_csv_census/action_authorizer.rb
+# app/services/decidim/custom_csv_census/action_authorizer.rb
 module Decidim
-  module Verifications
-    module CustomCsvCensus
-      class ActionAuthorizer < DefaultActionAuthorizer
-        # See the documentation for the parent class for implementation ideas.
-      end
+  module CustomCsvCensus
+    class ActionAuthorizer < DefaultActionAuthorizer
+      # See the documentation for the parent class for implementation ideas.
     end
   end
 end

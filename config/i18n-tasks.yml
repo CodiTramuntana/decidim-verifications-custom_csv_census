@@ -4,11 +4,11 @@
 base_locale: ca
 locales: [ca]
 ignore_missing:
-- "errors.messages.not_found"
+  - "errors.messages.not_found"
 ignore_unused:
   - "activemodel.attributes.custom_csv_census_authorization_handler.*"
   - "decidim.authorization_handlers.admin.*"
   - "decidim.authorization_handlers.custom_csv_census.*"
   - "decidim.authorization_handlers.custom_csv_census_authorization_handler.*"
-  - "decidim.verifications.custom_csv_census.admin_log.*"
+  - "decidim.custom_csv_census.admin_log.*"
   - "errors.messages.*"
