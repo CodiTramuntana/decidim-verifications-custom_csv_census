@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 ruby RUBY_VERSION
 
-gem "decidim", "~> 0.25"
+gem "decidim", "0.27.2"
 gem "decidim-custom_csv_census", path: "."
 
 gem "bootsnap", "~> 1.4"
@@ -12,7 +12,7 @@ gem "bootsnap", "~> 1.4"
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
 
-  gem "decidim-dev", "~> 0.25"
+  gem "decidim-dev", "0.27.2"
 end
 
 group :development do

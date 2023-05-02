@@ -32,7 +32,7 @@ module Decidim
         before do
           create(
             :census_datum,
-            id_document: CensusDatum.encode("00000000Z"),
+            id_document: "00000000Z",
             birth_date: birth_date,
             organization: organization
           )

@@ -28,13 +28,13 @@ module Decidim
         @logger.info "[#{self.class}] col_sep: '#{col_sep}'"
         return unless headers == fields.keys
 
-        CSV.foreach(@filepath, options).with_index(1) { |row, i| process_row(row, i) }
+        CSV.foreach(@filepath, **options).with_index(1) { |row, i| process_row(row, i) }
       end
 
       private
 
       def headers
-        @headers ||= CSV.open(@filepath, options, &:first).headers
+        @headers ||= CSV.open(@filepath, **options, &:first).headers
       end
 
       def options

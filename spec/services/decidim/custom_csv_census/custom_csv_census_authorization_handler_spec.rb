@@ -12,12 +12,11 @@ module Decidim
       let(:birth_date) { "01/02/2020".to_date }
       let(:user) { create(:user) }
       let(:organization) { user.organization }
-      let(:search_attributes) { { id_document: id_document, birth_date: birth_date } }
 
       let!(:data) do
         create(
           :census_datum,
-          id_document: CensusDatum.encode(id_document),
+          id_document: id_document,
           favourite_color: "purple",
           birth_date: birth_date,
           organization: organization
@@ -28,15 +27,15 @@ module Decidim
 
       describe "#unique_id" do
         it "consists of all searchable fields hashed" do
-          expect(subject.unique_id).to eq(CensusDatum.encode(search_attributes))
+          expect(subject.unique_id).to eq(CensusDatum.encode({ "id_document" => id_document, "birth_date" => birth_date }))
         end
       end
 
       describe "#metadata" do
         it "consists of all non encoded fields" do
           expect(subject.metadata).to eq({
-                                           favourite_color: "pink",
-                                           birth_date: birth_date.to_s
+                                           "favourite_color" => "pink",
+                                           "birth_date" => birth_date.to_s
                                          })
         end
       end

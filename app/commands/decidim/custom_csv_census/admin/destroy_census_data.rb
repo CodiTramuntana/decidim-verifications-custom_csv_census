@@ -5,7 +5,7 @@ module Decidim
     module Admin
       # A command with the business logic to destroy census data for a
       # organization.
-      class DestroyCensusData < Rectify::Command
+      class DestroyCensusData < Decidim::Command
         def initialize(current_user)
           @current_user = current_user
         end
