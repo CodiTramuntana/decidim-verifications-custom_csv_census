@@ -8,4 +8,4 @@ Decidim::Dev.dummy_app_path = File.expand_path(File.join("spec", "decidim_dummy_
 
 require "decidim/dev/test/base_spec_helper"
 
-Dir[File.join(Dir.pwd, "spec", "support", "/*.rb")].sort.each { |f| require f }
+Dir[File.join(Dir.pwd, "spec", "support", "/*.rb")].each { |f| require f }
